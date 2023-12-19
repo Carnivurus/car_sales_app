@@ -3,7 +3,8 @@ import pandas as pd
 import plotly_express as px
 
 # base de datos del proyecto
-car_data = pd.read_csv("D:\\Tripleten\\datasets\\vehicles_us.csv")
+car_data = pd.read_csv(
+    "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/Data_sprint_4_Refactored/vehicles_us.csv")
 
 st.header("Titulo del proyecto")
 
