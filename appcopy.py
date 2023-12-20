@@ -68,17 +68,44 @@ if dataframe_button:
     st.dataframe(df_filtered)
 
 # Bar Graphics
-sales_per_model_button = st.checkbox("Show Sales graphic per model")
+sales_per_model_button = st.checkbox("Show Sales Bar Graphic per model")
 
 if sales_per_model_button:
     fig = px.bar(df_filtered, x="model", y="price")
     st.plotly_chart(fig, use_container_width=True)
 
 # Histogram
-sales_per_model_button = st.checkbox("Show condition Histogram")
+sales_per_model_button = st.checkbox("Show Condition Histogram")
 
 if sales_per_model_button:
     fig = px.bar(df_filtered["condition"])
     st.plotly_chart(fig, use_container_width=True)
 
+# Boxplot
+sales_per_model_button = st.checkbox("Show Sales Boxplot")
+
+if sales_per_model_button:
+    fig = px.box(df_filtered, x="price")
+    st.plotly_chart(fig, use_container_width=True)
+
+
+odometer_hist_button = st.checkbox("Odometer Distribution Histogram")
+
+if odometer_hist_button:  # al hacer click en el botón
+    st.write(
+        "Creación de un histograma para el conjunto de datos de anuncios de venta de coches")
+    # Creación de un histograma
+    fig = px.histogram(df_filtered, x="odometer")
+
+    # mostrar un gráfico interactivo
+    st.plotly_chart(fig, use_container_width=True)
+
+odometer_dist_button = st.checkbox("Dispersión")
+
+if odometer_dist_button:
+    st.write(
+        "Se ha contruido una gráfica de dispersión"
+    )
+    fig2 = px.scatter(df_filtered, x="odometer", y="price")
+    st.plotly_chart(fig2, use_container_width=True)
 #######################
