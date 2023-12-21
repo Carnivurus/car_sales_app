@@ -1,13 +1,21 @@
 import streamlit as st
 import pandas as pd
 import plotly_express as px
+import numpy as np
 
+#######################
 # Base of the project
 car_data = pd.read_csv(
     "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/Data_sprint_4_Refactored/vehicles_us.csv")
 
+# Cleaning database
+car_data = car_data.dropna(subset="model_year")
+car_data["date_posted"] = pd.to_datetime(car_data["date_posted"])
+car_data = car_data.dropna(subset="model_year")
+car_data["model_year"] = car_data["model_year"].astype(int)
+
 #######################
-# Page condiguration
+# Page configuration
 st.set_page_config(
     page_title="Car Sales Dashboard",
     page_icon=":blue_car:",
@@ -17,11 +25,19 @@ st.set_page_config(
 st.header("Car Sales Dashboard")
 
 # Extraemos los elementos para usarlos en una lista desplegable
-model_year = car_data["model_year"].unique()
-models = car_data["model"].unique()
-type_car = car_data["type"].unique()
-fuel = car_data["fuel"].unique()
-cylinders = car_data["cylinders"].unique()
+
+model_year = sorted(car_data["model_year"].unique().tolist(), reverse=True)
+models = sorted(car_data["model"].unique().tolist())
+type_car = sorted(car_data["type"].unique().tolist())
+fuel = sorted(car_data["fuel"].unique().tolist())
+cylinders = sorted(car_data["cylinders"].unique().tolist())
+
+# model_year = car_data["model_year"].unique()
+# new_model_list = car_data[car_data["model_year"].isin(model_year)]
+# models = new_model_list["model"].unique()
+# type_car = car_data["type"].unique()
+# fuel = car_data["fuel"].unique()
+# cylinders = car_data["cylinders"].unique()
 
 
 #######################
@@ -65,7 +81,7 @@ df_filtered = car_data.query(
 # Filtered data frame
 dataframe_button = st.checkbox("Show Dataframe")
 if dataframe_button:
-    st.dataframe(df_filtered)
+    st.dataframe(df_filtered.head(15))
 
 # Bar Graphics
 sales_per_model_button = st.checkbox("Show Sales Bar Graphic per model")
@@ -100,7 +116,7 @@ if odometer_hist_button:  # al hacer click en el botón
     # mostrar un gráfico interactivo
     st.plotly_chart(fig, use_container_width=True)
 
-odometer_dist_button = st.checkbox("Dispersión")
+odometer_dist_button = st.checkbox("Scatter Plot")
 
 if odometer_dist_button:
     st.write(
